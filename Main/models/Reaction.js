@@ -7,7 +7,7 @@ const replySchema = new Schema(
       default: () => new Types.ObjectId()
     },replyBody: {
       type: String,
-      maxlength: 280,
+      maxlength: 140,
       required: true
     },username: {
       type: String,
