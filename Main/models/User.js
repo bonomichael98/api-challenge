@@ -3,15 +3,15 @@ const Post = require('./Post');
 
 const userSchema = new Schema(
     {
-        username: {
+        email: {
             type: String,
             required: true,
             unique: true,
-        }, email: {
+        }, username: {
             type: String,
             required: true,
             unique: true,
-        },posts: [
+        }, posts: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Thought',
@@ -23,7 +23,7 @@ const userSchema = new Schema(
         },  
         id: false
     }
-)
+);
 
 const User = model('User', userSchema);
 
