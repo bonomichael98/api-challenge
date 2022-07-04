@@ -6,7 +6,7 @@ const {
     createPost,
     updatePost,
     deletePost
-} = require('../controllers/post')
+} = require('../../controllers/post')
 
 router.route('/').get(getAllPosts);
 
