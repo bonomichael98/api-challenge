@@ -2,10 +2,8 @@ const {Post, User} = require('../models');
 
 const poster = {
     getAllPosts(req, res) {
-        Post.find({})
-        .then(dbPostData => res.json(dbPostData)).catch(err => {res.status(400).json(err)});
+        Post.find({}).then(dbPostData => res.json(dbPostData)).catch(err => {res.status(400).json(err)});
     },
-
     getOnePost(req, res) {
         Post.findOne({ _id: params.id })
         .then(dbPostData => {
@@ -16,25 +14,22 @@ const poster = {
             res.json(dbPostData);
         }).catch(err => res.json(err));
     },
-
     createPost(req, res){
         Post.create(body)
             .then(({ _id }) => {
                 return User.findOneAndUpdate(
                     { _id: params.userId },
-                    { $push: { thoughts: _id }},
+                    { $push: { reply: _id }},
                     { new: true }
                 );
-            })
-            .then(dbPostData => {
+            }).then(dbPostData => {
                 if (!dbPostData) {
-                    res.status(404).json({ message: 'no post found' });
+                    res.status(404).json({ message: 'no posts found' });
                     return;
                 }
                 res.json(dbThoughtData);
             }).catch(err => res.status(400).json(err));
     },
-    
     updatePost(req, res) {
         Post.findOneAndUpdate({ _id: params.id }, body, {new: true})
         .then(dbPostData => {
@@ -54,7 +49,7 @@ const poster = {
             }
             return User.findOneAndUpdate(
                 { _id: params.userId },
-                { $pull: { thoughts: params.postId } },
+                { $pull: { reply: params.postId } },
                 { new: true }
               );
         }).then(dbPostData => {
@@ -64,8 +59,7 @@ const poster = {
                 return;
             }
             res.json(dbPostData);
-        })
-        .catch(err => {
+        }).catch(err => {
             console.log(err);
             res.status(400).json(err);
         })
